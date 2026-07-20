@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: raw                         # the logical name used in source('raw', ...)
+    database: ENTERPRISE
+    schema: RAW
+    tables:
+      - name: orders
+        # Freshness: warn/error if the newest row is too old — a stalled feed.
+        loaded_at_field: ordered_at
+        freshness:
+          warn_after:  {count: 12, period: hour}
+          error_after: {count: 24, period: hour}
+      - name: customers
+      - name: products

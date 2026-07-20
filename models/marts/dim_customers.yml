@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "One row per customer with region, tier, and segment. The customer dimension every fact joins."
+    columns:
+      - name: customer_id
+        description: "Natural key from the source CRM. Unique, never null."
+        tests:
+          - unique
+          - not_null
+      - name: segment
+        description: "Derived segment: strategic | growth | self-serve."
+        tests:
+          - accepted_values:
+              values: ['strategic', 'growth', 'self-serve']
+
+exposures:
+  - name: executive_dashboard
+    type: dashboard
+    description: "The board-level KPI dashboard. Depends on mart_revenue."
+    depends_on:
+      - ref('mart_revenue')
+    owner:
+      name: Data Platform
+      email: data@enterprise.example

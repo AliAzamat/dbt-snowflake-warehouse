@@ -1,0 +1,11 @@
+name: enterprise_analytics
+version: 1.0.0
+profile: snowflake
+
+# Where dbt finds models, and how each folder materializes by default.
+models:
+  enterprise_analytics:
+    staging:
+      +materialized: view      # cheap, always-fresh views over raw
+    marts:
+      +materialized: table     # persisted tables for fast dashboard reads
